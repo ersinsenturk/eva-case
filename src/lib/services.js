@@ -44,15 +44,41 @@ export const getTokenApi = async (formData) => {
   return token
 }
 
-export const getDailySalesApi = async (token, dailySales) => {
+export const getDailySalesApi = async (token, dailySalesUser) => {
   const response = await fetch(`${BASE_URL}/data/daily-sales-overview`, {
     method: 'POST',
-    body: JSON.stringify({ ...dailySales }),
+    body: JSON.stringify({ ...dailySalesUser }),
     headers: {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     }
   })
-  const data = response.json()
+  const data = await response.json()
+  return data
+}
+
+export const getSkuListApi = async (token, skuData) => {
+  const response = await fetch(`${BASE_URL}/data/daily-sales-sku-list`, {
+    method: 'POST',
+    body: JSON.stringify({ ...skuData }),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  const data = await response.json()
+  return data
+}
+
+export const getSkuRefundRateApi = async (token, refundListData) => {
+  const response = await fetch(`${BASE_URL}/data/get-sku-refund-rate`, {
+    method: 'POST',
+    body: JSON.stringify({ ...refundListData }),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  })
+  const data = await response.json()
   return data
 }

@@ -8,7 +8,7 @@
         </option>
       </select>
     </div>
-    <app-chart v-if="dailySales.length > 0" />
+    <app-chart v-if="dailySales.length > 0" :sales="store.state.sales" />
   </div>
 </template>
 
@@ -21,7 +21,7 @@ const emits = defineEmits(['fetch-chart'])
 
 const dailySales = computed(() => store.state.sales.dailySales)
 const days = ref([60, 30, 14, 7])
-const selectedDays = ref(30)
+const selectedDays = ref(7)
 watch(
   selectedDays,
   (days) => {

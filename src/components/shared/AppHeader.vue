@@ -14,6 +14,6 @@ const handleLogout = () => {
   store.dispatch('auth/logoutUser', store.state.auth.token)
 }
 const fullName = computed(
-  () => `${store.state.auth.user.firstName} ${store.state.auth.user.lastName}`
+  () => `${store.state.auth.user?.firstName} ${store.state.auth.user?.lastName}`
 )
 </script>
