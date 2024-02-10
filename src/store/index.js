@@ -1,15 +1,11 @@
 import { createStore } from 'vuex'
+import auth from './auth'
+import sales from './sales'
 
 const store = createStore({
-  state() {
-    return {
-      count: 0
-    }
-  },
-  mutations: {
-    increment(state) {
-      state.count++
-    }
+  modules: {
+    auth,
+    sales
   }
 })
 
