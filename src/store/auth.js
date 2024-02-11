@@ -1,4 +1,4 @@
-import { fetchUserApi, getTokenApi, logoutUserApi } from '@/lib/services'
+import { logoutUserApi } from '@/lib/services'
 
 export default {
   namespaced: true,
@@ -17,9 +17,7 @@ export default {
     }
   },
   actions: {
-    async loginUser({ commit }, formData) {
-      const token = await getTokenApi(formData)
-      const user = await fetchUserApi(token, formData.email)
+    loginUser({ commit }, { user, token }) {
       commit('LOGIN_USER', { user, token })
     },
     async logoutUser({ commit }, token) {

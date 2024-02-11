@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
 import { useStore } from 'vuex'
 
 const router = createRouter({
@@ -8,7 +7,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: () => import('@/views/HomeView.vue'),
       meta: {
         requiresAuth: true
       }
@@ -31,7 +30,6 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const store = useStore()
   const isAuthenticated = store.getters['auth/isAuthenticated']
-
   if (to.meta.requiresAuth) {
     if (!isAuthenticated) {
       return next('login')
@@ -41,7 +39,6 @@ router.beforeEach((to, from, next) => {
       return next('home')
     }
   }
-
   return next()
 })
 

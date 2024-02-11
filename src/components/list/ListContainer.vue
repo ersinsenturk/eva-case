@@ -3,7 +3,7 @@
     <search-input />
     <app-list
       v-if="filteredSkuList.length > 0"
-      :list="pagingSkuList"
+      :list="paginatedSkuList"
       :firstDate="skuList.firstDate"
       :secondDate="skuList.secondDate"
     />
@@ -12,6 +12,7 @@
       :totalPages="totalPages"
       :currentPage="currentPage"
       @page-changed="onPageChange"
+      v-if="totalPages > 0"
     />
   </div>
 </template>
@@ -25,7 +26,7 @@ import { useStore } from 'vuex'
 const store = useStore()
 const skuList = computed(() => store.state.sales.skuList)
 const filteredSkuList = computed(() => store.getters['sales/getFilteredSku'])
-const pagingSkuList = computed(() =>
+const paginatedSkuList = computed(() =>
   filteredSkuList.value.slice(
     (currentPage.value - 1) * perPage.value,
     currentPage.value * perPage.value

@@ -17,28 +17,38 @@
             required
           />
         </div>
-        <button class="form-button">Submit</button>
+        <button class="form-button" :disabled="isLoading">
+          {{ isLoading ? 'Logging in...' : 'Submit' }}
+        </button>
+        <div class="text-red-500" v-if="errorText">{{ errorText }}</div>
       </form>
     </app-card>
   </div>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
+import { fetchUserApi, getTokenApi } from '@/lib/services'
 const store = useStore()
 
 const formData = reactive({
   email: 'homework@eva.guru',
-  password: 'Homeworkeva1**',
-  GrantType: 'password',
-  Scope: 'amazon_data',
-  ClientId: 'C0001',
-  ClientSecret: 'SECRET0001',
-  RedirectUri: 'https://api.eva.guru'
+  password: 'Homeworkeva1**'
 })
-const handleLogin = () => {
-  store.dispatch('auth/loginUser', formData)
+const isLoading = ref(false)
+const errorText = ref(null)
+const handleLogin = async () => {
+  isLoading.value = true
+  try {
+    const token = await getTokenApi(formData)
+    const user = await fetchUserApi(token, formData.email)
+    store.dispatch('auth/loginUser', { token, user })
+  } catch (error) {
+    errorText.value = error
+  } finally {
+    isLoading.value = false
+  }
 }
 </script>
 
