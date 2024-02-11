@@ -28,34 +28,8 @@ const fetchChart = async (day) => {
   const { Data } = await getDailySalesApi(store.state.auth.token, dailySalesUser)
   const { item: sales, Currency: currency } = Data
   store.dispatch('sales/setDailySales', { sales, currency })
+  store.dispatch('sales/setSkuList', {})
+  store.dispatch('sales/setSelectedSku', [])
+  store.dispatch('sales/searchSku', '')
 }
-
-// const selectedSkuDate = computed(() => store.state.sales.selectedSkuDate)
-
-// watch(
-//   selectedSkuDate,
-//   async (skuDate) => {
-//     const skuData = {
-//       marketplace: store.state.auth.user.store[0].marketplaceName,
-//       sellerId: store.state.auth.user.store[0].storeId,
-//       salesDate: skuDate[0],
-//       salesDate2: skuDate[1] || '',
-//       pageSize: 30,
-//       pageNumber: 1,
-//       isDaysCompare: skuDate.length > 1 ? 1 : 0
-//     }
-//     const { Data } = await getSkuListApi(store.state.auth.token, skuData)
-//     const skuList = Data.item.skuList
-
-//     const refundListData = {
-//       marketplace: store.state.auth.user.store[0].marketplaceName,
-//       sellerId: store.state.auth.user.store[0].storeId,
-//       skuList,
-//       requestedDay: 0
-//     }
-//     const { Data: refundData } = await getSkuRefundRateApi(store.state.auth.token, refundListData)
-//     console.log(refundData)
-//   },
-//   { deep: true }
-// )
 </script>

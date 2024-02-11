@@ -1,6 +1,18 @@
 import { OhVueIcon, addIcons } from 'oh-vue-icons'
-import { MdKeyboardarrowdownRound, MdSearchRound } from 'oh-vue-icons/icons'
+import {
+  MdKeyboardarrowdownRound,
+  MdKeyboardarrowupRound,
+  MdKeyboardarrowrightRound,
+  MdKeyboardarrowleftRound,
+  MdSearchRound
+} from 'oh-vue-icons/icons'
 
-addIcons(MdKeyboardarrowdownRound, MdSearchRound)
+addIcons(
+  MdKeyboardarrowdownRound,
+  MdKeyboardarrowupRound,
+  MdKeyboardarrowrightRound,
+  MdKeyboardarrowleftRound,
+  MdSearchRound
+)
 
 export default OhVueIcon

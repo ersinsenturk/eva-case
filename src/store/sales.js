@@ -4,7 +4,9 @@ export default {
     dailySales: [],
     currency: null,
     selectedSkuDate: [],
-    skuList: []
+    skuList: {},
+    selectedDays: 30,
+    searchSkuTerm: ''
   },
   mutations: {
     SET_DAILY_SALES(state, payload) {
@@ -18,6 +20,12 @@ export default {
     },
     SET_SKU_LIST(state, payload) {
       state.skuList = payload
+    },
+    SET_SELECTED_DAYS(state, payload) {
+      state.selectedDays = payload
+    },
+    SEARCH_SKU(state, payload) {
+      state.searchSkuTerm = payload
     }
   },
   actions: {
@@ -30,11 +38,22 @@ export default {
     },
     setSkuList({ commit }, list) {
       commit('SET_SKU_LIST', list)
+    },
+    setSelectedDays({ commit }, days) {
+      commit('SET_SELECTED_DAYS', days)
+    },
+    searchSku({ commit }, sku) {
+      commit('SEARCH_SKU', sku)
     }
   },
   getters: {
     getSelectedSkuDate(state) {
       return state.selectedSkuDate
+    },
+    getFilteredSku(state) {
+      return state.skuList.data?.filter((item) =>
+        item.sku.sku.toLowerCase().includes(state.searchSkuTerm.toLowerCase())
+      )
     }
   }
 }

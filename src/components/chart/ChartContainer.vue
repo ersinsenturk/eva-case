@@ -2,7 +2,7 @@
   <div>
     <div class="flex justify-between mb-8">
       <h2>Daily Sales</h2>
-      <select v-model="selectedDays" class="outline-none">
+      <select :value="selectedDays" @change="setSelectedDays" class="outline-none">
         <option v-for="day in days" :key="day" :value="day">
           {{ `Last ${day} Days` }}
         </option>
@@ -21,7 +21,10 @@ const emits = defineEmits(['fetch-chart'])
 
 const dailySales = computed(() => store.state.sales.dailySales)
 const days = ref([60, 30, 14, 7])
-const selectedDays = ref(7)
+const selectedDays = computed(() => store.state.sales.selectedDays)
+const setSelectedDays = (e) => {
+  store.dispatch('sales/setSelectedDays', e.target.value)
+}
 watch(
   selectedDays,
   (days) => {

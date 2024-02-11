@@ -37,6 +37,9 @@ export const useChartOptions = (sales) => {
           click: function (event) {
             const date = event.point.category
             selectSku(date)
+          },
+          legendItemClick: function () {
+            return false
           }
         }
       }

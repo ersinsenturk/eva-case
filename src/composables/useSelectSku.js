@@ -25,27 +25,32 @@ export const useSelectSku = () => {
   const store = useStore()
 
   const setRefundData = async (firstDate = '', secondDate = '') => {
-    const skuData = {
-      marketplace: store.state.auth.user.store[0].marketplaceName,
-      sellerId: store.state.auth.user.store[0].storeId,
-      salesDate: firstDate,
-      salesDate2: secondDate,
-      pageSize: 30,
-      pageNumber: 1,
-      isDaysCompare: secondDate !== '' ? 1 : 0
+    let dataWithDate
+    if (firstDate === '' && secondDate === '') {
+      dataWithDate = {}
+    } else {
+      const skuData = {
+        marketplace: store.state.auth.user.store[0].marketplaceName,
+        sellerId: store.state.auth.user.store[0].storeId,
+        salesDate: firstDate,
+        salesDate2: secondDate,
+        pageSize: 30,
+        pageNumber: 1,
+        isDaysCompare: secondDate !== '' ? 1 : 0
+      }
+      const { Data } = await getSkuListApi(store.state.auth.token, skuData)
+      const skuList = Data.item.skuList
+      const refundListData = {
+        marketplace: store.state.auth.user.store[0].marketplaceName,
+        sellerId: store.state.auth.user.store[0].storeId,
+        skuList,
+        requestedDay: 0
+      }
+      const { Data: refundData } = await getSkuRefundRateApi(store.state.auth.token, refundListData)
+      dataWithDate = { data: [...refundData], firstDate, secondDate }
     }
-    const { Data } = await getSkuListApi(store.state.auth.token, skuData)
-    const skuList = Data.item.skuList
 
-    const refundListData = {
-      marketplace: store.state.auth.user.store[0].marketplaceName,
-      sellerId: store.state.auth.user.store[0].storeId,
-      skuList,
-      requestedDay: 0
-    }
-    const { Data: refundData } = await getSkuRefundRateApi(store.state.auth.token, refundListData)
-    //console.log({ data: { ...refundData }, firstDate, secondDate })
-    store.dispatch('sales/setSkuList', refundData)
+    store.dispatch('sales/setSkuList', dataWithDate)
   }
 
   const selectSku = async (date) => {
@@ -61,10 +66,10 @@ export const useSelectSku = () => {
     const elFba = document.querySelectorAll('.highcharts-series-1 .highcharts-point')
     for (var item of elFba) {
       item.classList.remove('fill-green-500')
-      item.classList.remove('fill-green-300')
+      item.classList.remove('fill-teal-500')
     }
     elFba[firstIndex]?.classList.add('fill-green-500')
-    elFba[secondIndex]?.classList.add('fill-green-300')
+    elFba[secondIndex]?.classList.add('fill-teal-500')
 
     await setRefundData(firstDate, secondDate)
   }
